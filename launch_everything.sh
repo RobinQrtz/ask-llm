@@ -51,12 +51,15 @@ function run_cmd() {
   echo $OUTPUT_DIR
   echo $LOG_LEVEL
 
+  x=${MODEL_NAME%/*}
+  model_name=${x##*/}
+
   for fn in $(ls $PROJECT/data/dedup-doc-url-gopher/jsonl/$LANG-* | \grep -P "mc4|oscar"); do
     echo $fn
     #srun --partition=boost_usr_prod --nodes=1 --ntasks=1 --cpus-per-task=32 --mem=240GB \
     #  --gres=gpu:4 --time=0-24:00:00 --qos=normal --account=EUHPC_A02_045 \
-    #  --job-name=annotate-$PROMPT-$fn-$MODEL_NAME \
-    #  --output="${HOME}/logs/annotate-${PROMPT}-${MODEL_NAME}-$fn.log" \
+    #  --job-name=annotate-$PROMPT-$fn-$model_name \
+    #  --output="${HOME}/logs/annotate-${PROMPT}-${model_name}-$fn.log" \
     #  python $PROJECT/askllm_hf.py \
     #  --model_name $MODEL_NAME \
     #  --language $LANGUAGE \
